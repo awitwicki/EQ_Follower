@@ -8,31 +8,35 @@
 #define SW_SCK           13 // Software Slave Clock (SCK)
 
 #define R_SENSE 0.11f // Match to your driver
-                     // SilentStepStick series use 0.11
-                     // UltiMachine Einsy and Archim2 boards use 0.2
-                     // Panucatt BSD2660 uses 0.1
-                     // Watterott TMC5160 uses 0.075
+                      // SilentStepStick series use 0.11
+                      // UltiMachine Einsy and Archim2 boards use 0.2
+                      // Panucatt BSD2660 uses 0.1
+                      // Watterott TMC5160 uses 0.075
 
 // Select your stepper driver type
 
 TMC5160Stepper driver = TMC5160Stepper(CS_PIN, R_SENSE, SW_MOSI, SW_MISO, SW_SCK);
 
-bool dir = true;
-
 void setup() {
-  Serial.begin(9600);
-  while(!Serial);
-  Serial.println("Start...");
-  driver.begin(); 			// Initiate pins and registeries
-  driver.rms_current(1.600); 	// Set stepper current to 600mA. The command is the same as command TMC2130.setCurrent(600, 0.11, 0.5);
-  driver.en_pwm_mode(1);  	// Enable extremely quiet stepping
+  // Serial.begin(9600);
+  // while(!Serial);
+  // Serial.println("Start...");
+
+  // Initiate pins and registeries
+  driver.begin();
+
+  // Set stepper current to 1600mA. The command is the same as command TMC2130.setCurrent(600, 0.11, 0.5);
+  driver.rms_current(1.600);
+
+  // Enable extremely quiet stepping
+  driver.en_pwm_mode(1);
   driver.microsteps(8);
 
 
   pinMode(STEP_PIN, OUTPUT);
 
-  Serial.print("DRV_STATUS=0b");
-  Serial.println(driver.DRV_STATUS(), BIN);
+  // Serial.print("DRV_STATUS=0b");
+  // Serial.println(driver.DRV_STATUS(), BIN);
 }
 void loop()
 {
@@ -45,18 +49,16 @@ void loop()
     delayMicroseconds(speedValue * 10);
   } else {
     // Motor have 200 steps
-    // Each step is 16 signals
-    // Planetary reductor 16:1
-    // This goes to gear 36 teeth : gear 48 teeth -> 3:4
-    // 6 turns of second gear means 8 turns of first gear
-    // 8 turns of second gear * 16 (planetary reduction) * 200 (steps) * 16 (1/16 step per signal) / 3600
-    // 1 / (8 * 16 * 200 * 16 / 3600) = 11.71875ms
-    // Period is 11.71875ms
-    // TODO Needs to recalculate for new driver and motor reductors
+    // Each step is 8 microstep signals
+    // Belt reductor (16T to 80T) is 5:1
+    // 6 turns of second gear means 30 turns of motor per hour
+    // 6 turns of second gear * 5 (belt reduction) * 200 (steps) * 8 (1/8 step per signal) / 3600
+    // Period is 1 / (6 * 5 * 200 * 8 / 3600) = 0.075s
+    // Period is 75ms
 
     digitalWrite(STEP_PIN, HIGH);
-    delay(11);
+    delay(40);
     digitalWrite(STEP_PIN, LOW);
-    delayMicroseconds(718);
+    delayMicroseconds(35);
   }
 }
