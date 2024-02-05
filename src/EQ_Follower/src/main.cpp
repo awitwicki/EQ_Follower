@@ -16,9 +16,10 @@
 // Select your stepper driver type
 
 TMC5160Stepper driver = TMC5160Stepper(CS_PIN, R_SENSE, SW_MOSI, SW_MISO, SW_SCK);
+bool direction = true;
 
 void setup() {
-  // Serial.begin(9600);
+  Serial.begin(9600);
   // while(!Serial);
   // Serial.println("Start...");
 
@@ -26,27 +27,47 @@ void setup() {
   driver.begin();
 
   // Set stepper current to 1600mA. The command is the same as command TMC2130.setCurrent(600, 0.11, 0.5);
-  driver.rms_current(1.600);
+  driver.rms_current(200);
 
   // Enable extremely quiet stepping
   driver.en_pwm_mode(1);
   driver.microsteps(8);
 
-
+  pinMode(DIR_PIN, OUTPUT);
   pinMode(STEP_PIN, OUTPUT);
 
   // Serial.print("DRV_STATUS=0b");
-  // Serial.println(driver.DRV_STATUS(), BIN);
+  // Serial.println(driver.DRV_STATUSs(), BIN);
 }
+
+void updateDirection(bool newDirection) {
+  if (direction != newDirection) {
+    direction = newDirection;
+    digitalWrite(DIR_PIN, direction);
+  }
+}
+
 void loop()
 {
-  int speedValue = analogRead(0) + 5;
+  // Get value from analog joystick on pin A0 and map it to -100 to 100 range
+  long speedValue = map(analogRead(1), 0, 1023, -1000, 1000);
 
-  if (speedValue > 10) {
+  if (speedValue > 50 || speedValue < -50 ) {
+    // Direction is controlled by DIR pin
+    if (speedValue > 0) {
+      updateDirection(true);
+    } else {
+      updateDirection(false);
+    }
+
+    int pulseTime = map(abs(speedValue), 0, 1000, 3000, 200);
+    int waitTime = map(abs(speedValue), 0, 1000, 3000, 200);
+    // Serial.println(pulseTime);
+
     digitalWrite(STEP_PIN, HIGH);
-    delayMicroseconds(speedValue * 2);
+    delayMicroseconds(pulseTime);
     digitalWrite(STEP_PIN, LOW);
-    delayMicroseconds(speedValue * 10);
+    delayMicroseconds(waitTime);
   } else {
     // Motor have 200 steps
     // Each step is 8 microstep signals
@@ -59,6 +80,6 @@ void loop()
     digitalWrite(STEP_PIN, HIGH);
     delay(40);
     digitalWrite(STEP_PIN, LOW);
-    delayMicroseconds(35);
+    delay(35);
   }
 }
