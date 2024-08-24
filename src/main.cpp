@@ -17,9 +17,21 @@
 
 TMC5160Stepper driver = TMC5160Stepper(CS_PIN, R_SENSE, SW_MOSI, SW_MISO, SW_SCK);
 bool direction = true;
+bool isManualMode = true;
+
+void setDirection(bool newDirection) {
+    direction = newDirection;
+    digitalWrite(DIR_PIN, direction);
+}
+
+void updateDirection(bool newDirection) {
+  if (direction != newDirection) {
+    setDirection(newDirection);
+  }
+}
 
 void setup() {
-  Serial.begin(9600);
+  // Serial.begin(9600);
   // while(!Serial);
   // Serial.println("Start...");
 
@@ -36,39 +48,18 @@ void setup() {
   pinMode(DIR_PIN, OUTPUT);
   pinMode(STEP_PIN, OUTPUT);
 
+  setDirection(true);
+
   // Serial.print("DRV_STATUS=0b");
   // Serial.println(driver.DRV_STATUSs(), BIN);
 }
 
-void updateDirection(bool newDirection) {
-  if (direction != newDirection) {
-    direction = newDirection;
-    digitalWrite(DIR_PIN, direction);
-  }
-}
+void automaticMode () {
+  if (isManualMode) {
+        isManualMode = false;
+        updateDirection(true);
+      }
 
-void loop()
-{
-  // Get value from analog joystick on pin A0 and map it to -100 to 100 range
-  long speedValue = map(analogRead(1), 0, 1023, -1000, 1000);
-
-  if (speedValue > 50 || speedValue < -50 ) {
-    // Direction is controlled by DIR pin
-    if (speedValue > 0) {
-      updateDirection(true);
-    } else {
-      updateDirection(false);
-    }
-
-    int pulseTime = map(abs(speedValue), 0, 1000, 3000, 200);
-    int waitTime = map(abs(speedValue), 0, 1000, 3000, 200);
-    // Serial.println(pulseTime);
-
-    digitalWrite(STEP_PIN, HIGH);
-    delayMicroseconds(pulseTime);
-    digitalWrite(STEP_PIN, LOW);
-    delayMicroseconds(waitTime);
-  } else {
     // Motor have 200 steps
     // Each step is 8 microstep signals
     // Belt reductor (16T to 80T) is 5:1
@@ -81,5 +72,32 @@ void loop()
     delay(40);
     digitalWrite(STEP_PIN, LOW);
     delay(35);
+}
+
+void manualMode(int speed) {
+    isManualMode = true;
+
+    // Direction is controlled by DIR pin
+    updateDirection(speed > 0);
+
+    int pulseTime = map(abs(speed), 0, 1000, 3000, 200);
+    int waitTime = map(abs(speed), 0, 1000, 3000, 200);
+    // Serial.println(pulseTime);
+
+    digitalWrite(STEP_PIN, HIGH);
+    delayMicroseconds(pulseTime);
+    digitalWrite(STEP_PIN, LOW);
+    delayMicroseconds(waitTime);
+}
+
+void loop()
+{
+  // Get value from analog joystick on pin A0 and map it to -100 to 100 range
+  long speedValue = map(analogRead(1), 0, 1023, -1000, 1000);
+
+  if (abs(speedValue) > 80) {
+   manualMode(speedValue);
+  } else {
+   automaticMode();
   }
 }
