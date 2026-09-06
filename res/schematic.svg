@@ -1,0 +1,184 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 690" width="1200" height="690" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#222">
+  <rect width="1200" height="690" fill="#ffffff"/>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#333"/>
+    </marker>
+  </defs>
+
+  <text x="600" y="45" text-anchor="middle" font-size="24" font-weight="bold">EQ Follower wiring</text>
+  <text x="600" y="70" text-anchor="middle" font-size="14" fill="#555">Arduino Uno + TMC5160 (SPI) + NEMA17 + 100:1 harmonic drive on the RA axis</text>
+
+  <!-- ================= Joystick ================= -->
+  <rect x="40" y="200" width="170" height="180" rx="8" fill="#f7f7f7" stroke="#333" stroke-width="1.5"/>
+  <text x="125" y="228" text-anchor="middle" font-weight="bold" font-size="15">Joystick module</text>
+  <text x="125" y="246" text-anchor="middle" font-size="11" fill="#666">(one axis used)</text>
+  <text x="200" y="264" text-anchor="end">VCC</text>
+  <text x="200" y="304" text-anchor="end">VRx</text>
+  <text x="200" y="344" text-anchor="end">GND</text>
+  <circle cx="210" cy="260" r="3" fill="#333"/>
+  <circle cx="210" cy="300" r="3" fill="#333"/>
+  <circle cx="210" cy="340" r="3" fill="#333"/>
+
+  <!-- Joystick -> Arduino wires -->
+  <line x1="210" y1="260" x2="300" y2="260" stroke="#d62828" stroke-width="2"/>
+  <line x1="210" y1="300" x2="300" y2="300" stroke="#e08a00" stroke-width="2"/>
+  <line x1="210" y1="340" x2="300" y2="340" stroke="#111" stroke-width="2"/>
+  <text x="255" y="255" text-anchor="middle" font-size="11" fill="#444">5V</text>
+  <text x="255" y="295" text-anchor="middle" font-size="11" fill="#444">analog</text>
+  <text x="255" y="335" text-anchor="middle" font-size="11" fill="#444">GND</text>
+
+  <!-- ================= Arduino Uno ================= -->
+  <rect x="300" y="100" width="220" height="440" rx="8" fill="#eef4fb" stroke="#333" stroke-width="1.5"/>
+  <text x="410" y="128" text-anchor="middle" font-weight="bold" font-size="15">Arduino Uno</text>
+  <text x="410" y="146" text-anchor="middle" font-size="11" fill="#666">ATmega328P, 16 MHz</text>
+  <!-- left pins -->
+  <text x="310" y="264">5V</text>
+  <text x="310" y="304">A1</text>
+  <text x="310" y="344">GND</text>
+  <circle cx="300" cy="260" r="3" fill="#333"/>
+  <circle cx="300" cy="300" r="3" fill="#333"/>
+  <circle cx="300" cy="340" r="3" fill="#333"/>
+  <!-- right pins -->
+  <text x="510" y="164" text-anchor="end">D13</text>
+  <text x="510" y="204" text-anchor="end">D12</text>
+  <text x="510" y="244" text-anchor="end">D11</text>
+  <text x="510" y="284" text-anchor="end">D5</text>
+  <text x="510" y="324" text-anchor="end">D4</text>
+  <text x="510" y="364" text-anchor="end">D3</text>
+  <text x="510" y="424" text-anchor="end">5V</text>
+  <text x="510" y="464" text-anchor="end">GND</text>
+  <circle cx="520" cy="160" r="3" fill="#333"/>
+  <circle cx="520" cy="200" r="3" fill="#333"/>
+  <circle cx="520" cy="240" r="3" fill="#333"/>
+  <circle cx="520" cy="280" r="3" fill="#333"/>
+  <circle cx="520" cy="320" r="3" fill="#333"/>
+  <circle cx="520" cy="360" r="3" fill="#333"/>
+  <circle cx="520" cy="420" r="3" fill="#333"/>
+  <circle cx="520" cy="460" r="3" fill="#333"/>
+
+  <!-- Arduino -> Driver wires -->
+  <line x1="520" y1="160" x2="620" y2="160" stroke="#2266cc" stroke-width="2"/>
+  <line x1="520" y1="200" x2="620" y2="200" stroke="#2266cc" stroke-width="2"/>
+  <line x1="520" y1="240" x2="620" y2="240" stroke="#2266cc" stroke-width="2"/>
+  <line x1="520" y1="280" x2="620" y2="280" stroke="#2266cc" stroke-width="2"/>
+  <line x1="520" y1="320" x2="620" y2="320" stroke="#2a9d3f" stroke-width="2"/>
+  <line x1="520" y1="360" x2="620" y2="360" stroke="#2a9d3f" stroke-width="2"/>
+  <line x1="520" y1="420" x2="620" y2="420" stroke="#d62828" stroke-width="2"/>
+  <line x1="520" y1="460" x2="620" y2="460" stroke="#111" stroke-width="2"/>
+  <text x="570" y="155" text-anchor="middle" font-size="11" fill="#444">SCK</text>
+  <text x="570" y="195" text-anchor="middle" font-size="11" fill="#444">MISO</text>
+  <text x="570" y="235" text-anchor="middle" font-size="11" fill="#444">MOSI</text>
+  <text x="570" y="275" text-anchor="middle" font-size="11" fill="#444">CS</text>
+  <text x="570" y="315" text-anchor="middle" font-size="11" fill="#444">STEP</text>
+  <text x="570" y="355" text-anchor="middle" font-size="11" fill="#444">DIR</text>
+  <text x="570" y="415" text-anchor="middle" font-size="11" fill="#444">5V</text>
+  <text x="570" y="455" text-anchor="middle" font-size="11" fill="#444">GND</text>
+
+  <!-- EN tied to GND -->
+  <path d="M620,500 H580 V460" fill="none" stroke="#111" stroke-width="2"/>
+  <circle cx="580" cy="460" r="3.5" fill="#111"/>
+  <text x="568" y="518" text-anchor="middle" font-size="10" fill="#444">EN low = enabled</text>
+
+  <!-- ================= TMC5160 ================= -->
+  <rect x="620" y="100" width="200" height="440" rx="8" fill="#f2f7ee" stroke="#333" stroke-width="1.5"/>
+  <text x="720" y="128" text-anchor="middle" font-weight="bold" font-size="15">TMC5160 driver</text>
+  <text x="720" y="146" text-anchor="middle" font-size="11" fill="#666">StepStick form factor, SPI mode</text>
+  <!-- left pins -->
+  <text x="630" y="164">SCK</text>
+  <text x="630" y="204">SDO (MISO)</text>
+  <text x="630" y="244">SDI (MOSI)</text>
+  <text x="630" y="284">CS</text>
+  <text x="630" y="324">STEP</text>
+  <text x="630" y="364">DIR</text>
+  <text x="630" y="424">VIO</text>
+  <text x="630" y="464">GND</text>
+  <text x="630" y="504">EN</text>
+  <circle cx="620" cy="160" r="3" fill="#333"/>
+  <circle cx="620" cy="200" r="3" fill="#333"/>
+  <circle cx="620" cy="240" r="3" fill="#333"/>
+  <circle cx="620" cy="280" r="3" fill="#333"/>
+  <circle cx="620" cy="320" r="3" fill="#333"/>
+  <circle cx="620" cy="360" r="3" fill="#333"/>
+  <circle cx="620" cy="420" r="3" fill="#333"/>
+  <circle cx="620" cy="460" r="3" fill="#333"/>
+  <circle cx="620" cy="500" r="3" fill="#333"/>
+  <!-- right pins -->
+  <text x="810" y="174" text-anchor="end">1A</text>
+  <text x="810" y="204" text-anchor="end">1B</text>
+  <text x="810" y="264" text-anchor="end">2A</text>
+  <text x="810" y="294" text-anchor="end">2B</text>
+  <circle cx="820" cy="170" r="3" fill="#333"/>
+  <circle cx="820" cy="200" r="3" fill="#333"/>
+  <circle cx="820" cy="260" r="3" fill="#333"/>
+  <circle cx="820" cy="290" r="3" fill="#333"/>
+  <!-- bottom pins -->
+  <text x="680" y="530" text-anchor="middle">VM</text>
+  <text x="760" y="530" text-anchor="middle">GND</text>
+  <circle cx="680" cy="540" r="3" fill="#333"/>
+  <circle cx="760" cy="540" r="3" fill="#333"/>
+
+  <!-- Driver -> Motor wires -->
+  <line x1="820" y1="170" x2="890" y2="170" stroke="#7b2cbf" stroke-width="2"/>
+  <line x1="820" y1="200" x2="890" y2="200" stroke="#7b2cbf" stroke-width="2"/>
+  <line x1="820" y1="260" x2="890" y2="260" stroke="#7b2cbf" stroke-width="2"/>
+  <line x1="820" y1="290" x2="890" y2="290" stroke="#7b2cbf" stroke-width="2"/>
+  <text x="855" y="189" text-anchor="middle" font-size="10" fill="#666">coil A</text>
+  <text x="855" y="279" text-anchor="middle" font-size="10" fill="#666">coil B</text>
+
+  <!-- ================= Motor ================= -->
+  <rect x="890" y="140" width="120" height="180" rx="8" fill="#fbf3ea" stroke="#333" stroke-width="1.5"/>
+  <text x="898" y="174">1A</text>
+  <text x="898" y="204">1B</text>
+  <text x="898" y="264">2A</text>
+  <text x="898" y="294">2B</text>
+  <circle cx="890" cy="170" r="3" fill="#333"/>
+  <circle cx="890" cy="200" r="3" fill="#333"/>
+  <circle cx="890" cy="260" r="3" fill="#333"/>
+  <circle cx="890" cy="290" r="3" fill="#333"/>
+  <circle cx="972" cy="230" r="24" fill="#fff" stroke="#333" stroke-width="1.5"/>
+  <text x="972" y="237" text-anchor="middle" font-size="18" font-weight="bold">M</text>
+  <text x="950" y="342" text-anchor="middle" font-weight="bold">NEMA17 stepper</text>
+  <text x="950" y="358" text-anchor="middle" font-size="11" fill="#555">Minebea 17PM-K1xx</text>
+  <text x="950" y="374" text-anchor="middle" font-size="11" fill="#555">200 steps / rev</text>
+
+  <!-- Shaft coupling -->
+  <line x1="1010" y1="226" x2="1065" y2="226" stroke="#333" stroke-width="2"/>
+  <line x1="1010" y1="234" x2="1065" y2="234" stroke="#333" stroke-width="2"/>
+  <text x="1037" y="216" text-anchor="middle" font-size="10" fill="#444">coupler</text>
+
+  <!-- ================= Harmonic drive ================= -->
+  <rect x="1065" y="190" width="120" height="80" rx="8" fill="#f7f7f7" stroke="#333" stroke-width="1.5"/>
+  <text x="1125" y="215" text-anchor="middle" font-weight="bold">Harmonic drive</text>
+  <text x="1125" y="233" text-anchor="middle" font-size="11" fill="#555">CSF-mini 11</text>
+  <text x="1125" y="251" text-anchor="middle" font-size="11" fill="#555">ratio 100:1</text>
+  <line x1="1125" y1="270" x2="1125" y2="335" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="1125" y="356" text-anchor="middle" font-weight="bold">RA axis</text>
+  <text x="1125" y="373" text-anchor="middle" font-size="11" fill="#555">1 turn per sidereal day</text>
+
+  <!-- ================= Motor PSU ================= -->
+  <line x1="680" y1="540" x2="680" y2="600" stroke="#d62828" stroke-width="2"/>
+  <line x1="760" y1="540" x2="760" y2="600" stroke="#111" stroke-width="2"/>
+  <!-- bulk capacitor -->
+  <line x1="680" y1="572" x2="712" y2="572" stroke="#333" stroke-width="2"/>
+  <line x1="712" y1="560" x2="712" y2="584" stroke="#333" stroke-width="2.5"/>
+  <line x1="722" y1="560" x2="722" y2="584" stroke="#333" stroke-width="2.5"/>
+  <line x1="722" y1="572" x2="760" y2="572" stroke="#333" stroke-width="2"/>
+  <circle cx="680" cy="572" r="3.5" fill="#d62828"/>
+  <circle cx="760" cy="572" r="3.5" fill="#111"/>
+  <text x="704" y="566" font-size="9" fill="#444">+</text>
+  <text x="717" y="553" text-anchor="middle" font-size="10" fill="#444">100 µF</text>
+  <rect x="660" y="600" width="140" height="60" rx="8" fill="#fdecec" stroke="#333" stroke-width="1.5"/>
+  <text x="680" y="616" text-anchor="middle" font-weight="bold">+</text>
+  <text x="760" y="616" text-anchor="middle" font-weight="bold">−</text>
+  <text x="730" y="636" text-anchor="middle" font-weight="bold">Motor PSU</text>
+  <text x="730" y="652" text-anchor="middle" font-size="11" fill="#555">12–24 V DC</text>
+
+  <!-- ================= Notes ================= -->
+  <text x="40" y="566" font-weight="bold">Notes</text>
+  <text x="40" y="586" font-size="11" fill="#333">• EN is tied to GND, so the driver is always enabled. The firmware does not drive EN.</text>
+  <text x="40" y="604" font-size="11" fill="#333">• SPI is bit-banged by TMCStepper on D11 / D12 / D13, the same pins as hardware SPI on the Uno.</text>
+  <text x="40" y="622" font-size="11" fill="#333">• Driver setup(): 1/8 microsteps, StealthChop, 200 mA RMS, R_SENSE = 0.11 Ω. Match R_SENSE to your board.</text>
+  <text x="40" y="640" font-size="11" fill="#333">• Joystick VRy and SW are unused. Stick centered = sidereal tracking, stick deflected = manual slew.</text>
+  <text x="40" y="658" font-size="11" fill="#333">• Fit a 100 µF or larger electrolytic across VM / GND right at the driver.</text>
+</svg>
