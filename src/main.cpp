@@ -19,6 +19,16 @@ TMC5160Stepper driver = TMC5160Stepper(CS_PIN, R_SENSE, SW_MOSI, SW_MISO, SW_SCK
 bool direction = true;
 bool isManualMode = true;
 
+// Motor have 200 steps
+// Each step is 8 microstep signals
+// Motor shaft is coupled directly to a harmonic drive (CSF-mini 11) with 100:1 reduction
+// Harmonic drive output is the RA axis, so it needs 1 turn per sidereal day (86164.0905s)
+// Steps per sidereal day is 100 (harmonic reduction) * 200 (steps) * 8 (1/8 step per signal) = 160000
+// Period is 86164.0905 / 160000 = 0.5385256s = 538526us
+#define STEP_PERIOD_US 538526UL
+#define STEP_PULSE_US  20
+unsigned long lastStepTime = 0;
+
 void setDirection(bool newDirection) {
     direction = newDirection;
     digitalWrite(DIR_PIN, direction);
@@ -56,22 +66,21 @@ void setup() {
 
 void automaticMode () {
   if (isManualMode) {
-        isManualMode = false;
-        updateDirection(true);
-      }
+    isManualMode = false;
+    updateDirection(true);
+    lastStepTime = micros();
+  }
 
-    // Motor have 200 steps
-    // Each step is 8 microstep signals
-    // Belt reductor (16T to 80T) is 5:1
-    // 6 turns of second gear means 30 turns of motor per hour
-    // 6 turns of second gear * 5 (belt reduction) * 200 (steps) * 8 (1/8 step per signal) / 3600
-    // Period is 1 / (6 * 5 * 200 * 8 / 3600) = 0.075s
-    // Period is 75ms
+  // Schedule steps on micros() instead of blocking with delay(), so the joystick
+  // keeps being read between steps and loop overhead doesn't stretch the period.
+  // Unsigned arithmetic keeps this correct across micros() overflow.
+  if (micros() - lastStepTime >= STEP_PERIOD_US) {
+    lastStepTime += STEP_PERIOD_US;
 
     digitalWrite(STEP_PIN, HIGH);
-    delay(40);
+    delayMicroseconds(STEP_PULSE_US);
     digitalWrite(STEP_PIN, LOW);
-    delay(35);
+  }
 }
 
 void manualMode(int speed) {
