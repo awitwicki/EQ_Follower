@@ -16,7 +16,7 @@
 // Select your stepper driver type
 
 TMC5160Stepper driver = TMC5160Stepper(CS_PIN, R_SENSE, SW_MOSI, SW_MISO, SW_SCK);
-bool direction = true;
+bool direction = false;
 bool isManualMode = true;
 
 // Motor have 200 steps
@@ -58,7 +58,7 @@ void setup() {
   pinMode(DIR_PIN, OUTPUT);
   pinMode(STEP_PIN, OUTPUT);
 
-  setDirection(true);
+  setDirection(false);
 
   // Serial.print("DRV_STATUS=0b");
   // Serial.println(driver.DRV_STATUSs(), BIN);
@@ -67,7 +67,7 @@ void setup() {
 void automaticMode () {
   if (isManualMode) {
     isManualMode = false;
-    updateDirection(true);
+    updateDirection(false);
     lastStepTime = micros();
   }
 
